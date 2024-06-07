@@ -2,7 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, avg, expr, when, round, regexp_replace
 
 spark = SparkSession.builder.appName("WordCount").getOrCreate()
-# Lire le fichier CSV
 df = spark.read.csv("listings.csv", header=True, multiLine=True, escape="\"")
 # Afficher le schéma du DataFrame
 df.printSchema()
@@ -35,10 +34,7 @@ average_price= total_price/nombre_total
 # Filtrer les lignes où le prix est différent de zéro et n'est pas
 print("Price/nigh en dollar avec conversion en trouve la bonne valeur:", average_price)
 
-# Créer une nouvelle colonne pour le revenu estimé
 df = df.withColumn("estimated_income", col("price_cleaned") * col("estimated_nights_booked"))
-
-# Calculer la moyenne du revenu estimé
 average_income = df.select(avg("estimated_income")).collect()[0][0]
 
-print("Revenu moyen estimé :", average_income)
+print("average_income :", average_income)
